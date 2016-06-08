@@ -7,6 +7,7 @@ package pi;
 
 import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -15,8 +16,12 @@ import modelo.agendamento;
 import pi.dao.Conexao;
 import pi.dao.clienteDao;
 import modelo.cliente;
+import modelo.funcionario;
+import modelo.servico;
 import modelo.unidade;
 import pi.dao.agendamentoDao;
+import pi.dao.funcionarioDao;
+import pi.dao.servicoDao;
 import pi.dao.unidadeDao;
 
 /**
@@ -95,7 +100,7 @@ public class PI {
 
     public static void main(String[] args) throws SQLException {
         Scanner leitor = new Scanner(System.in);
-        leitor.nextLine();
+        //leitor.nextLine();
 
         // conectar com o banco de dados
         Connection conn = Conexao.conectar();
@@ -104,10 +109,15 @@ public class PI {
         clienteDao cli = new clienteDao(conn);
         agendamentoDao agend = new agendamentoDao(conn);
         unidadeDao uni = new unidadeDao(conn);
+        funcionarioDao fun = new funcionarioDao(conn);
+        servicoDao ser = new servicoDao(conn);
+        
         // importa as classes
         cliente clie = new cliente();
         agendamento agendar = new agendamento();
         unidade unidade1 = new unidade();
+        funcionario func = new funcionario();
+        servico serv = new servico();
 
         int op; //menu principal
         do {
@@ -119,33 +129,67 @@ public class PI {
                     switch (opCadastro) {
 
                         case 1: // efetuar o agendamento
+                            //encontrar as unidades no banco de dados
                             System.out.println(" Informe qual unidade deseja realizar o serviço ");
                             System.out.println(" ");
-                            /*uni.buscar(unidade1);
+                            uni.buscar(unidade1);
                             int unidade = leitor.nextInt();
                             agendar.setIdUnidade(unidade);
-                            agend.insere(agendar);*/
-                            System.out.println(" Escolha a Funcionário(a) ");
+                            // agend.insere(agendar); //insere no banco - agendamento
+
+                            // escolher funcionario
+                           /* System.out.println(" Escolha a Funcionário(a) ");
                             System.out.println("  ");
-                            System.out.println(" Nome do (a) Cliente ");
+                            fun.pesquisarPorID(unidade); //irá chamar a profissional da unidade digitada anteriormente
+                            int funcionario = leitor.nextInt();
+                            agendar.getIdFuncionario(); //guarda na classe o valor (ID do funcionario)
+                            agend.insere(agendar);//insere o ID do funcionario no agendamento
+                            //recebendo o nome do cliente
+                            
+                            //informa o cliente
+                            System.out.println(" Informe o cliente");
                             System.out.println("  ");
-                            System.out.println(" Escolha o serviço ");
+                            System.out.println(" 1 - Por nome "); //por nome caso o cliente não esteja cadastrado
+                            System.out.println(" 2 - Por código "); //codigo do cadastro
+
+                            int escolha = leitor.nextInt();
+
+                            if (escolha == 1) { //se a opcao for 1, nome será guardado na variavel de nome da classe agendamento
+                                System.out.println(" Digite o nome: ");
+                                String nomeCliente = leitor.nextLine();
+                                agendar.setNomeCliente(nomeCliente);
+
+                            } else if (escolha == 2) {
+                                System.out.println(" Digite o código: ");
+                                int idCliente = leitor.nextInt();
+                                agendar.setIdCliente(idCliente);
+                            }*/
+
+                            System.out.println(" Digite o código do serviço que deseja ");
                             System.out.println("  ");
+                            ser.buscar(serv);
+                            int servico = leitor.nextInt();
+                            agendar.setIdServico(servico); // inclui na classe o valor recebido na variavel
+                         
+                            //insere a data
                             System.out.println(" Informe a data ");
                             System.out.println("  ");
+                            String data = leitor.nextLine();
+                            agendar.setDataAgendamento(data);//insere a data na classe agendamento
+                            
                             System.out.println(" Informe o horário inicial ");
                             System.out.println("  ");
+                            
                             System.out.println(" Informe o horário final ");
                             System.out.println("  ");
-                            System.out.println(" Participa da Promoção ? ");
+                           /* System.out.println(" Participa da Promoção ? ");
                             System.out.println("  ");
                             System.out.println(" Valor ");
                             System.out.println("  ");
                             System.out.println(" Status ");
                             System.out.println("  ");
                             System.out.println(" Participa da Fila de Espera?");
-                            
-
+*/
                             break;
                         case 2:
                             break;
@@ -173,13 +217,19 @@ public class PI {
                             switch (opcaoCliente) {
                                 case 1:
                                     System.out.println(" Informe qual cliente deseja editar ");// condição, precisa ver no banco qual chave primaria
+                                    
+                                    cli.atualizar(clie);
                                     break;
                                 case 2:
-                                    System.out.println(" Informe qual cliente deseja excluir ");
+                                    System.out.println(" Informe qual codigo do cliente deseja excluir ");
+                                    //comparar se possui nome para excluir ******
+                                    int idApagar = leitor.nextInt();
+                                    cli.apagar(idApagar);
+                                    System.out.println(" Cadastro apagado com sucesso !! ");
                                     break;
                                 case 3:
                                     System.out.println(" ");
-                                    System.out.println(" Nome | CPF | RG | Telefone | Celular |");
+                                    System.out.println(" Código | Nome | CPF | RG | Telefone | Celular |");
                                     System.out.println(" ");
                                     cli.buscar(clie);
                                     System.out.println(" ");
@@ -194,13 +244,22 @@ public class PI {
 
                             switch (opcaoFuncionario) {
                                 case 1:
-                                    // System.out.println(" Informe qual funcionário deseja editar ");// condição, precisa ver no banco qual chave primaria
-                                    break;
+                                     System.out.println(" Informe qual o código do funcionário que deseja editar ");// condição, precisa ver no banco qual chave primaria
+                                    
+                                     
+                                     break;
                                 case 2:
-                                    System.out.println(" Informe qual funcionário deseja excluir ");// condição, precisa ver no banco qual chave primaria
+                                    System.out.println(" Informe qual o código do funcionário que deseja excluir ");// condição, precisa ver no banco qual chave primaria
+                                    int idApagar = leitor.nextInt();
+                                    fun.apagar(idApagar); //passa o id para a funcao apagar da classe funcionario que faz conexão com DB
+                                    System.out.println(" Cadastro apagado com sucesso !! ");
                                     break;
                                 case 3:
-                                    //select
+                                    System.out.println(" ");
+                                    System.out.println(" Código do Funcionário | Código da Unidade | Nome do Funcionario | CPF | RG | Cargo |");
+                                    System.out.println(" ");
+                                    fun.buscar(func);
+                                    System.out.println(" ");
                                     break;
                             }
                     }

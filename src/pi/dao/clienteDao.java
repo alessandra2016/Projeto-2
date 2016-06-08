@@ -25,10 +25,10 @@ public class clienteDao {
         this.comando = comando;
     }
 
-    public void apagar(String rg) throws SQLException {
+    public void apagar(int idCliente) throws SQLException {
         Statement comando1 = this.comando.createStatement();
         try {
-            comando1.executeUpdate("DELETE FROM CLIENTE WHERE rg = '" + rg + "';");
+            comando1.executeUpdate("DELETE FROM CLIENTE WHERE ID_CLIENTE = '" + idCliente + "';");
         } catch (SQLException e) {
             Conexao.imprimeErro("Erro ao apagar cliente", e.getMessage());
         } finally {
@@ -36,38 +36,14 @@ public class clienteDao {
         }
     }
 
-    public Vector<cliente> buscarTodos() throws SQLException {
-        Statement comando1 = this.comando.createStatement();
-        Vector<cliente> resultados = new Vector<cliente>();
-        ResultSet rs;
-        try {
-            rs = comando1.executeQuery("SELECT * FROM cliente");
-            while (rs.next()) {
-                cliente temp = new cliente();
-                // pega todos os atributos da pessoa  
 
-                temp.setNome(rs.getString("nome"));
-                temp.setRg(rs.getString("rg"));
-                temp.setCpf(rs.getString("cpf"));
-                temp.setTelefone(rs.getString("telefone"));
-                temp.setCelular(rs.getString("celular"));
-                resultados.add(temp);
-            }
-            return resultados;
-        } catch (SQLException e) {
-            Conexao.imprimeErro("Erro ao buscar cliente", e.getMessage());
-            return null;
-        } finally {
-            Conexao.fechar();
-        }
-    }
-
+//atualizar os dados do banco tabela cliente
     public void atualizar(cliente cliente) throws SQLException {
         Statement comando1 = this.comando.createStatement();
-        String com = "UPDATE pessoa SET nome = '" + cliente.getNome()
-                + "', cpf =" + cliente.getCpf() + ", telefone = '"
-                + cliente.getTelefone() + "', celular ='" + cliente.getCelular()
-                + "' WHERE  rg = '" + cliente.getRg() + "';";
+        String com = "UPDATE CLIENTE SET NOME = '" + cliente.getNome()
+                + "', CPF =" + cliente.getCpf() + "', RG =" + cliente.getRg()+ ", TELEFONE = '"
+                + cliente.getTelefone() + "', CELULAR ='" + cliente.getCelular()
+                + "' WHERE  ID_CLIENTE = '" + cliente.getIdcliente()+ "';";
         System.out.println("Atualizada!");
         try {
             comando1.executeUpdate(com);
@@ -91,7 +67,7 @@ public class clienteDao {
             while (rs.next()) {
                 cliente temp = new cliente();
                 // pega todos os atributos da pessoa e guarda na classe
-                
+                temp.setNome(rs.getString("ID_CLIENTE"));
                 temp.setNome(rs.getString("NOME_CLIENTE"));
                 temp.setCpf(rs.getString("CPF"));
                 temp.setRg(rs.getString("RG"));
@@ -100,7 +76,7 @@ public class clienteDao {
                
                 // exibe os cadastros no banco
                
-                System.out.println(rs.getString("NOME_CLIENTE") + " | " + rs.getString("CPF") + " | " +rs.getString("RG") + " | " + rs.getString("TELEFONE") + " | " +rs.getString("CELULAR"));
+                System.out.println(rs.getString("ID_CLIENTE") +" | "+rs.getString("NOME_CLIENTE") + " | " + rs.getString("CPF") + " | " +rs.getString("RG") + " | " + rs.getString("TELEFONE") + " | " +rs.getString("CELULAR"));
             }
         } catch (SQLException e) {
             Conexao.imprimeErro("Erro ao buscar cliente", e.getMessage());

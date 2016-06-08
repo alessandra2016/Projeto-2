@@ -18,6 +18,7 @@ import java.sql.Date;
 public class agendamento {
 
     private int idCliente;
+    private String nomeCliente;
     private int idFuncionario;
     private int idServico;
     private int idStatus;
@@ -124,6 +125,18 @@ public class agendamento {
 
     public Date getDataAgendamento() {
         return dataAgendamento;
+    }
+    
+        public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public void setDataAgendamento(String data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

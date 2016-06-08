@@ -4,7 +4,7 @@ package modelo;
 public class servico {
 
     private int id_Servico;
-    private String descricao_desc;
+    private String descricao_ser;
     private double valor;
 
     public int getId_Servico() {
@@ -12,7 +12,7 @@ public class servico {
     }
 
     public String getDescricao_desc() {
-        return descricao_desc;
+        return descricao_ser;
     }
 
     public double getValor() {
@@ -23,8 +23,8 @@ public class servico {
         this.id_Servico = id_Servico;
     }
 
-    public void setDescricao_desc(String descricao_desc) {
-        this.descricao_desc = descricao_desc;
+    public void setDescricao_desc(String descricao_ser) {
+        this.descricao_ser = descricao_ser;
     }
 
     public void setValor(double valor) {
