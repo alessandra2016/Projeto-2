@@ -81,7 +81,7 @@ public class funcionarioDao {
         } catch (SQLException e) {
             Conexao.imprimeErro("Erro ao apagar cliente", e.getMessage());
         } finally {
-            Conexao.fechar();
+            Conexao.fechar(this.comando);
         }
     }
 

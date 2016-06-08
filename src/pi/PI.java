@@ -82,7 +82,7 @@ public class PI {
         System.out.println(" 3 - fluxo de serviço prestado ");
         System.out.println(" 4 - total de clientes que participaram da promoção ");
         System.out.println(" 5 - total de frequencia de cada cliente ");
-        //documentação ajustar a quantidade
+        
 
         int opRelatorio = leitor.nextInt();
 
@@ -174,7 +174,7 @@ public class PI {
                             //insere a data
                             System.out.println(" Informe a data ");
                             System.out.println("  ");
-                            String data = leitor.nextLine();
+                            String data = leitor.next();
                             agendar.setDataAgendamento(data);//insere a data na classe agendamento
                             
                             System.out.println(" Informe o horário inicial ");

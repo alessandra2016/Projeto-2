@@ -56,10 +56,10 @@ public class Conexao {
         return con;
     }
 
-    public static void fechar() {
+    public static void fechar(Connection conn) {
         try {
-            comando.close();
-            con.close();
+            conn.close();
+            //con.close();
             System.out.println("Conexão Fechada");
         } catch (SQLException e) {
             imprimeErro("Erro ao fechar conexão", e.getMessage());

@@ -28,11 +28,11 @@ public class clienteDao {
     public void apagar(int idCliente) throws SQLException {
         Statement comando1 = this.comando.createStatement();
         try {
-            comando1.executeUpdate("DELETE FROM CLIENTE WHERE ID_CLIENTE = '" + idCliente + "';");
+            comando1.executeUpdate("DELETE FROM CLIENTE WHERE ID_CLIENTE = " + idCliente + ";");
         } catch (SQLException e) {
             Conexao.imprimeErro("Erro ao apagar cliente", e.getMessage());
         } finally {
-            Conexao.fechar();
+            Conexao.fechar(this.comando);
         }
     }
 
@@ -50,7 +50,7 @@ public class clienteDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Conexao.fechar();
+            Conexao.fechar(this.comando);
         }
     }
     
