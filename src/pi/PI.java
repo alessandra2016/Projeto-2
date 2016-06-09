@@ -18,10 +18,12 @@ import pi.dao.clienteDao;
 import modelo.cliente;
 import modelo.funcionario;
 import modelo.servico;
+import modelo.status;
 import modelo.unidade;
 import pi.dao.agendamentoDao;
 import pi.dao.funcionarioDao;
 import pi.dao.servicoDao;
+import pi.dao.statusDao;
 import pi.dao.unidadeDao;
 
 /**
@@ -82,7 +84,6 @@ public class PI {
         System.out.println(" 3 - fluxo de serviço prestado ");
         System.out.println(" 4 - total de clientes que participaram da promoção ");
         System.out.println(" 5 - total de frequencia de cada cliente ");
-        
 
         int opRelatorio = leitor.nextInt();
 
@@ -93,6 +94,7 @@ public class PI {
         Scanner leitor = new Scanner(System.in);
         System.out.println(" 1 - Realizar Agendamento ");
         System.out.println(" 2 - Alterar Agendamento ");
+        System.out.println(" 3 - Visualizar Agendamento ");
         int opCadastro = leitor.nextInt();
 
         return opCadastro;
@@ -111,13 +113,15 @@ public class PI {
         unidadeDao uni = new unidadeDao(conn);
         funcionarioDao fun = new funcionarioDao(conn);
         servicoDao ser = new servicoDao(conn);
-        
+        statusDao status = new statusDao(conn);
+
         // importa as classes
         cliente clie = new cliente();
         agendamento agendar = new agendamento();
         unidade unidade1 = new unidade();
         funcionario func = new funcionario();
         servico serv = new servico();
+        status sta = new status();
 
         int op; //menu principal
         do {
@@ -138,16 +142,16 @@ public class PI {
                             // agend.insere(agendar); //insere no banco - agendamento
 
                             // escolher funcionario
-                           System.out.println(" Digite o código da Funcionário(a):");
+                            System.out.println(" Digite o código da Funcionário(a):");
                             System.out.println("  ");
                             fun.pesquisarPorID(unidade); //irá chamar a profissional da unidade digitada anteriormente
                             int funcionario = leitor.nextInt();
                             agendar.getIdFuncionario(); //guarda na classe o valor (ID do funcionario)
-                            //agend.insere(agendar);//insere o ID do funcionario no agendamento
+                            agend.insere(agendar);//insere o ID do funcionario no agendamento
                             //recebendo o nome do cliente
-                            
+
                             //informa o cliente
-                           System.out.println(" Informe o cliente");
+                            System.out.println(" Informe o cliente");
                             System.out.println("  ");
                             System.out.println(" 1 - Por nome - caso não possua cadastro "); //por nome caso o cliente não esteja cadastrado
                             System.out.println(" 2 - Por código "); //codigo do cadastro
@@ -171,35 +175,87 @@ public class PI {
                             int servico = leitor.nextInt();
                             agendar.setIdServico(servico); // inclui na classe o valor recebido na variavel
                             System.out.println("  ");
-                            
+
                             //insere a data
                             System.out.println(" Informe a data ");
                             System.out.println("  ");
                             String data = leitor.next();
                             agendar.setDataAgendamento(data);//insere a data na classe agendamento
-                            
+
                             System.out.println("  ");
-                            System.out.println(" Informe o horário inicial ");
+                            System.out.println(" Informe o horário inicial - cada serviço terá 30 minutos para realização ");
                             System.out.println("  ");
-                            String horaInicial =  leitor.next();
+                            String horaInicial = leitor.next();
                             agendar.setHoraInicial(horaInicial);
-                            
+
                             System.out.println("  ");
-                            System.out.println(" Informe o horário final ");
+                            System.out.println(" Informe o horário final - cada serviço terá 30 minutos para realização ");
                             System.out.println("  ");
-                            String horaFinal =  leitor.next();
+                            String horaFinal = leitor.next();
                             agendar.setHoraFinal(horaFinal);
-                            
-                           /* System.out.println(" Participa da Promoção ? ");
+
+                            //verificação se a cliente esta participando da promoção
+                            System.out.println(" ");
+                            System.out.println(" Digite a opção : ");
+                            System.out.println(" Participa da Promoção ? ");
                             System.out.println("  ");
+                            System.out.println(" 1 - Sim ");
+                            System.out.println(" 2 - Não ");
+                            int opPromocao = leitor.nextInt();
+
+                            //compara se participa da promocao ou não
+                            if (opPromocao == 1) {
+                                boolean promocao = true;
+
+                                //guarda na classe a resposta
+                                agendar.setPromocao(promocao);
+                            } else {
+                                boolean promocao = false;
+
+                                //guarda na classe a resposta
+                                agendar.setPromocao(promocao);
+                            }
+
                             System.out.println(" Valor ");
                             System.out.println("  ");
-                            System.out.println(" Status ");
+                            Double val = leitor.nextDouble();
+                            agendar.setValor(val);
+
+                            //informa o status do agendamento
+                            System.out.println(" ");
+                            System.out.println(" Digite o código do Status ");
                             System.out.println("  ");
+                            status.buscar(sta);
+                            int idStatus = leitor.nextInt();
+                            agendar.setIdStatus(idStatus);
+                            
+                            //fila de espera
                             System.out.println(" Participa da Fila de Espera?");
-*/
+                            System.out.println("  ");
+                            System.out.println(" 1 - Sim ");
+                            System.out.println(" 2 - Não ");
+                            int opFila = leitor.nextInt();
+
+                            //compara se participa da promocao ou não
+                            if (opFila == 1) {
+                                boolean fila = true;
+
+                                //guarda na classe a resposta
+                                agendar.setFilaEspera(fila);
+                            } else {
+                                boolean fila = false;
+
+                                //guarda na classe a resposta
+                                agendar.setFilaEspera(fila);
+                            }
+
+                            System.out.println(" Agendamento Realizado !!! ");
+                            
                             break;
                         case 2:
+                            break;
+                            
+                        case 3:
                             break;
                     }
                     break;
@@ -225,7 +281,7 @@ public class PI {
                             switch (opcaoCliente) {
                                 case 1:
                                     System.out.println(" Informe qual cliente deseja editar ");// condição, precisa ver no banco qual chave primaria
-                                    
+
                                     cli.atualizar(clie);
                                     break;
                                 case 2:
@@ -252,10 +308,9 @@ public class PI {
 
                             switch (opcaoFuncionario) {
                                 case 1:
-                                     System.out.println(" Informe qual o código do funcionário que deseja editar ");// condição, precisa ver no banco qual chave primaria
-                                    
-                                     
-                                     break;
+                                    System.out.println(" Informe qual o código do funcionário que deseja editar ");// condição, precisa ver no banco qual chave primaria
+
+                                    break;
                                 case 2:
                                     System.out.println(" Informe qual o código do funcionário que deseja excluir ");// condição, precisa ver no banco qual chave primaria
                                     int idApagar = leitor.nextInt();
