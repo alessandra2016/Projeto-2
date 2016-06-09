@@ -147,9 +147,8 @@ public class PI {
                             fun.pesquisarPorID(unidade); //irá chamar a profissional da unidade digitada anteriormente
                             int funcionario = leitor.nextInt();
                             agendar.getIdFuncionario(); //guarda na classe o valor (ID do funcionario)
-                            agend.insere(agendar);//insere o ID do funcionario no agendamento
-                            //recebendo o nome do cliente
 
+                            //recebendo o nome do cliente
                             //informa o cliente
                             System.out.println(" Informe o cliente");
                             System.out.println("  ");
@@ -228,7 +227,7 @@ public class PI {
                             status.buscar(sta);
                             int idStatus = leitor.nextInt();
                             agendar.setIdStatus(idStatus);
-                            
+
                             //fila de espera
                             System.out.println(" Participa da Fila de Espera?");
                             System.out.println("  ");
@@ -250,12 +249,21 @@ public class PI {
                             }
 
                             System.out.println(" Agendamento Realizado !!! ");
-                            
+
+                            agend.insere(agendar); //insere as informações na tabela agendamento do banco de dados
+
                             break;
                         case 2:
                             break;
-                            
+
                         case 3:
+
+                            System.out.println(" ");
+                            System.out.println(" Código do cliente | Código da unidade | Código do serviço | Código do status | Código do agendamento | Hora Inicial | Hora Final | Fila de Espera | Promoção | Data do agendamento");
+                            System.out.println(" ");
+                            agend.buscar(agendar);
+                            System.out.println(" ");
+
                             break;
                     }
                     break;

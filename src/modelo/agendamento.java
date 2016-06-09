@@ -29,6 +29,15 @@ public class agendamento {
     private boolean filaEspera, promocao;
     private String dataAgendamento;
     private int unidade;
+    private Double valor;
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
