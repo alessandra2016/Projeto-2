@@ -45,7 +45,7 @@ public class agendamentoDao {
                 sentenca.setString(8, agendar.getHoraFinal()); //subsitui a primeira ocorrÃªncia da interrogaÃ§Ã£o pelo atributo nome
                 sentenca.setBoolean(9, agendar.isFilaEspera());
                 sentenca.setBoolean(10, agendar.isPromocao());
-                sentenca.setDate(11, agendar.getDataAgendamento());
+                sentenca.setString(11, agendar.getDataAgendamento());
                 sentenca.execute(); //executa o comando no banco
                 sentenca.close(); //fecha a sentenÃ§a
                 this.comando.prepareStatement(sql).close(); //fecha a conexÃ£o com o banco

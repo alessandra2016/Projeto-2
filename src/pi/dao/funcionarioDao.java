@@ -32,7 +32,7 @@ public class funcionarioDao {
         ResultSet rs;
         try {
             //COMANDO QUE EXECUTA O SELECT DO FUNCIONARIO DE UMA DETERMINADA UNIDADE
-            rs = comando1.executeQuery("SELECT * FROM FUNCIONARIO WHERE ID_FUNCIONARIO = '" + id + "';");
+            rs = comando1.executeQuery("SELECT * FROM FUNCIONARIO WHERE ID_UNIDADE = " + id + ";");
             while (rs.next()) {
                 funcionario temp = new funcionario();
 

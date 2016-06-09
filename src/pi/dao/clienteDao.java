@@ -77,6 +77,7 @@ public class clienteDao {
                 // exibe os cadastros no banco
                
                 System.out.println(rs.getString("ID_CLIENTE") +" | "+rs.getString("NOME_CLIENTE") + " | " + rs.getString("CPF") + " | " +rs.getString("RG") + " | " + rs.getString("TELEFONE") + " | " +rs.getString("CELULAR"));
+           
             }
         } catch (SQLException e) {
             Conexao.imprimeErro("Erro ao buscar cliente", e.getMessage());

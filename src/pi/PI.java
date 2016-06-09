@@ -138,50 +138,58 @@ public class PI {
                             // agend.insere(agendar); //insere no banco - agendamento
 
                             // escolher funcionario
-                           /* System.out.println(" Escolha a Funcionário(a) ");
+                           System.out.println(" Digite o código da Funcionário(a):");
                             System.out.println("  ");
                             fun.pesquisarPorID(unidade); //irá chamar a profissional da unidade digitada anteriormente
                             int funcionario = leitor.nextInt();
                             agendar.getIdFuncionario(); //guarda na classe o valor (ID do funcionario)
-                            agend.insere(agendar);//insere o ID do funcionario no agendamento
+                            //agend.insere(agendar);//insere o ID do funcionario no agendamento
                             //recebendo o nome do cliente
                             
                             //informa o cliente
-                            System.out.println(" Informe o cliente");
+                           System.out.println(" Informe o cliente");
                             System.out.println("  ");
-                            System.out.println(" 1 - Por nome "); //por nome caso o cliente não esteja cadastrado
+                            System.out.println(" 1 - Por nome - caso não possua cadastro "); //por nome caso o cliente não esteja cadastrado
                             System.out.println(" 2 - Por código "); //codigo do cadastro
 
                             int escolha = leitor.nextInt();
 
                             if (escolha == 1) { //se a opcao for 1, nome será guardado na variavel de nome da classe agendamento
                                 System.out.println(" Digite o nome: ");
-                                String nomeCliente = leitor.nextLine();
+                                String nomeCliente = leitor.next();
                                 agendar.setNomeCliente(nomeCliente);
 
                             } else if (escolha == 2) {
                                 System.out.println(" Digite o código: ");
                                 int idCliente = leitor.nextInt();
                                 agendar.setIdCliente(idCliente);
-                            }*/
-
+                            }
+                            System.out.println("  ");
                             System.out.println(" Digite o código do serviço que deseja ");
                             System.out.println("  ");
                             ser.buscar(serv);
                             int servico = leitor.nextInt();
                             agendar.setIdServico(servico); // inclui na classe o valor recebido na variavel
-                         
+                            System.out.println("  ");
+                            
                             //insere a data
                             System.out.println(" Informe a data ");
                             System.out.println("  ");
                             String data = leitor.next();
                             agendar.setDataAgendamento(data);//insere a data na classe agendamento
                             
+                            System.out.println("  ");
                             System.out.println(" Informe o horário inicial ");
                             System.out.println("  ");
+                            String horaInicial =  leitor.next();
+                            agendar.setHoraInicial(horaInicial);
                             
+                            System.out.println("  ");
                             System.out.println(" Informe o horário final ");
                             System.out.println("  ");
+                            String horaFinal =  leitor.next();
+                            agendar.setHoraFinal(horaFinal);
+                            
                            /* System.out.println(" Participa da Promoção ? ");
                             System.out.println("  ");
                             System.out.println(" Valor ");

@@ -27,7 +27,7 @@ public class agendamento {
     private String horaFinal;
     private String horaInicial;
     private boolean filaEspera, promocao;
-    private Date dataAgendamento;
+    private String dataAgendamento;
     private int unidade;
 
     public void setIdCliente(int idCliente) {
@@ -62,7 +62,7 @@ public class agendamento {
         this.promocao = promocao;
     }
 
-    public void setDataAgendamento(Date dataAgendamento) {
+    public void setDataAgendamento(String dataAgendamento) {
         this.dataAgendamento = dataAgendamento;
     }
 
@@ -123,7 +123,7 @@ public class agendamento {
         return promocao;
     }
 
-    public Date getDataAgendamento() {
+    public String getDataAgendamento() {
         return dataAgendamento;
     }
     
@@ -135,8 +135,6 @@ public class agendamento {
         this.nomeCliente = nomeCliente;
     }
 
-    public void setDataAgendamento(String data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
 }
