@@ -10,33 +10,59 @@ package modelo;
  * @author Alessandra
  */
 public class cliente {
-    
-    private String nome,cpf,rg,telefone, celular;
-  private int idCliente;
-    
-        public cliente() {
+
+    private String nome, cpf, rg, telefone, celular;
+    private int idCliente;
+
+    private String nomeNovo, cpfNovo, rgNovo, telefoneNovo, celularNovo;
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
-    
-    public cliente(String nome, String cpf, String rg, String telefone, String celular) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.telefone = telefone;
-        this.celular = celular;
-      
+
+    public void setNomeNovo(String nomeNovo) {
+        this.nomeNovo = nomeNovo;
     }
-    
-        public cliente(int Idcliente,String nome, String cpf, String rg, String telefone, String celular) {
-        this.idCliente = Idcliente;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.telefone = telefone;
-        this.celular = celular;
-      
+
+    public void setCpfNovo(String cpfNovo) {
+        this.cpfNovo = cpfNovo;
     }
-    
-   
+
+    public void setRgNovo(String rgNovo) {
+        this.rgNovo = rgNovo;
+    }
+
+    public void setTelefoneNovo(String telefoneNovo) {
+        this.telefoneNovo = telefoneNovo;
+    }
+
+    public void setCelularNovo(String celularNovo) {
+        this.celularNovo = celularNovo;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public String getNomeNovo() {
+        return nomeNovo;
+    }
+
+    public String getCpfNovo() {
+        return cpfNovo;
+    }
+
+    public String getRgNovo() {
+        return rgNovo;
+    }
+
+    public String getTelefoneNovo() {
+        return telefoneNovo;
+    }
+
+    public String getCelularNovo() {
+        return celularNovo;
+    }
 
     public String getNome() {
         return nome;
@@ -57,11 +83,11 @@ public class cliente {
     public String getCelular() {
         return celular;
     }
-    
-   public int getIdcliente() {
+
+    public int getIdcliente() {
         return idCliente;
     }
-    
+
     public void setIdcliente(int idcliente) {
         this.idCliente = idcliente;
     }
