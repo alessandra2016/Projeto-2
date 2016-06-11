@@ -37,35 +37,36 @@ public class clienteDao {
     }
 
     //atualizar os dados do banco tabela cliente
-    public void atualizar(cliente cliente, int n, String dados) throws SQLException {
+    public void atualizar(cliente cliente, String dados ,int n) throws SQLException {
         Statement comando1 = this.comando.createStatement();
-        cliente clie = new cliente();
+
         try {
+            if (n ==1){
+            String query = "UPDATE CLIENTE SET NOME_CLIENTE = '" + cliente.getNome() + "', NOME_CLIENTE = '" + dados + "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
 
-            if (n == 1) {
-                String query = "UPDATE CLIENTE SET NOME_CLIENTE = '" + cliente.getNome() + "', NOME_CLIENTE = '" + dados+ "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
+            System.out.println(" Nome atualizado!");
+            comando1.executeUpdate(query); //com é a mesma variavel que esta guardando a String
+            }
+            
+            else if (n == 2) {
 
-                System.out.println(" Nome Atualizado!");
-                comando1.executeUpdate(query);
-            } else if (n == 2) {
-
-                String query = "UPDATE CLIENTE SET CPF = '" + cliente.getCpf() + "', CPF = '" + cliente.getCpfNovo() + "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
+                String query = "UPDATE CLIENTE SET CPF = '" + cliente.getCpf() + "', CPF = '" + dados+ "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
 
                 System.out.println(" CPF Atualizado!");
                 comando1.executeUpdate(query);
             } else if (n == 3) {
 
-                String query = "UPDATE CLIENTE SET RG = '" + cliente.getRg() + "', RG = '" + cliente.getRgNovo() + "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
+                String query = "UPDATE CLIENTE SET RG = '" + cliente.getRg() + "', RG = '" + dados + "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
 
                 System.out.println(" RG Atualizado!");
                 comando1.executeUpdate(query);
             } else if (n == 4) {
-                String query = "UPDATE CLIENTE SET TELEFONE = '" + cliente.getTelefone()+ "', TELEFONE = '" + cliente.getTelefoneNovo()+ "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
+                String query = "UPDATE CLIENTE SET TELEFONE = '" + cliente.getTelefone()+ "', TELEFONE = '" + dados+ "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
 
                 System.out.println(" Telefone Atualizado!");
                 comando1.executeUpdate(query);
             } else if (n == 5) {
-                String query = "UPDATE CLIENTE SET CELULAR = '" + cliente.getCelular()+ "', CELULAR = '" + cliente.getCelularNovo()+ "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
+                String query = "UPDATE CLIENTE SET CELULAR = '" + cliente.getCelular()+ "', CELULAR = '" + dados + "' where ID_CLIENTE = '" + cliente.getIdcliente() + "';";
 
                 System.out.println(" Celular Atualizado!");
                 comando1.executeUpdate(query);
@@ -76,6 +77,7 @@ public class clienteDao {
             Conexao.imprimeErro("Erro ao atualizar cliente", e.getMessage());
         }
     }
+
 
     public void buscar(cliente cliente) throws SQLException {
         Statement comando1 = this.comando.createStatement();

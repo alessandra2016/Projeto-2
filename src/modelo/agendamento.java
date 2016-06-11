@@ -22,6 +22,8 @@ public class agendamento {
     private int idFuncionario;
     private int idServico;
     private int idStatus;
+    private int Cod;
+
     private int idUnidade;
     private int idAgendamento;
     private String horaFinal;
@@ -30,6 +32,16 @@ public class agendamento {
     private String dataAgendamento;
     private int unidade;
     private Double valor;
+
+    public int getCod() {
+        return Cod;
+    }
+
+    public void setCod(int Cod) {
+        this.Cod = Cod;
+    }
+
+  
 
     public Double getValor() {
         return valor;
@@ -123,7 +135,6 @@ public class agendamento {
         return horaInicial;
     }
 
-
     public boolean isFilaEspera() {
         return filaEspera;
     }
@@ -135,15 +146,13 @@ public class agendamento {
     public String getDataAgendamento() {
         return dataAgendamento;
     }
-    
-        public String getNomeCliente() {
+
+    public String getNomeCliente() {
         return nomeCliente;
     }
 
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
     }
-
-    
 
 }

@@ -44,7 +44,7 @@ public class Conexao {
     public static Connection conectar() {
         try {
             con = abreConexao(URL, NOME, SENHA, Conexao.MYSQL);
-            System.out.println("Conectado!");
+            //System.out.println("Conectado!");
             
             return con;
             
@@ -56,7 +56,7 @@ public class Conexao {
         return con;
     }
 
-    public static void fechar(Connection conn) {
+  /*  public static void fechar(Connection conn) {
         try {
             conn.close();
             //con.close();
@@ -64,7 +64,7 @@ public class Conexao {
         } catch (SQLException e) {
             imprimeErro("Erro ao fechar conexão", e.getMessage());
         }
-    }
+    }*/
 
     public static void imprimeErro(String msg, String msgErro) {
 //        JOptionPane.showMessageDialog(null, msg, "Erro crítico", 0);

@@ -13,13 +13,44 @@ import java.sql.Statement;
 import java.util.Vector;
 import modelo.agendamento;
 
-
 public class agendamentoDao {
 
     private Connection comando;
 
     public agendamentoDao(Connection comando) {
         this.comando = comando;
+    }
+
+    public agendamento buscarEspecifica(int idAgenda) throws SQLException {
+        Statement comando1 = this.comando.createStatement();
+        agendamento temp = new agendamento();
+     
+        String query = "SELECT * FROM AGENDAMENTO WHERE ID_AGENDAMENTO = '" + idAgenda + "';";
+        try {
+            ResultSet rs = comando1.executeQuery(query);
+            while (rs.next()) {
+
+                temp.setIdCliente(rs.getInt("ID_CLIENTE"));
+                temp.setIdUnidade(rs.getInt("ID_UNIDADE"));
+                temp.setIdFuncionario(rs.getInt("ID_FUNCIONARIO"));
+                temp.setIdServico(rs.getInt("ID_SERVICO"));
+                temp.setIdStatus(rs.getInt("ID_STATUS"));
+                temp.setIdAgendamento(rs.getInt("ID_AGENDAMENTO"));
+                temp.setHoraInicial(rs.getString("HORARIO_INICIAL"));
+                temp.setHoraFinal(rs.getString("HORARIO_FINAL")); //subsitui a primeira ocorrÃªncia da interrogaÃ§Ã£o pelo atributo nome
+                temp.setFilaEspera(rs.getBoolean("FILA_ESPERA"));
+                temp.setPromocao(rs.getBoolean("PROMOCAO"));
+                temp.setDataAgendamento(rs.getString("DATA_AGEN"));
+
+                // exibe os cadastros no banco
+                System.out.println(rs.getInt("ID_CLIENTE") + " | " + rs.getInt("ID_UNIDADE") + " | " + rs.getInt("ID_FUNCIONARIO") + " | " + rs.getInt("ID_SERVICO") + " | " + rs.getInt("ID_STATUS") + " | " + rs.getInt("ID_AGENDAMENTO") + "|" + rs.getString("HORARIO_INICIAL") + "|" + rs.getString("HORARIO_FINAL") + "|" + rs.getBoolean("FILA_ESPERA") + "|" + rs.getBoolean("PROMOCAO") + "|" + rs.getString("DATA_AGEN"));
+
+            }
+
+        } catch (SQLException e) {
+            Conexao.imprimeErro("Erro ao buscar agendamento", e.getMessage());
+        }
+        return temp;
     }
 
     public void insere(agendamento agendar) throws SQLException {
@@ -56,19 +87,17 @@ public class agendamentoDao {
         }
 
     }
-    
-    
+
     public void buscar(agendamento agendar) throws SQLException {
         Statement comando1 = this.comando.createStatement();
-        
+
         ResultSet rs;
         try {
             rs = comando1.executeQuery("SELECT * FROM AGENDAMENTO");
             while (rs.next()) {
                 agendamento temp = new agendamento();
                 // pega todos os atributos da pessoa e guarda na classe
-               
-                
+
                 temp.setIdCliente(rs.getInt("ID_CLIENTE"));
                 temp.setIdUnidade(rs.getInt("ID_UNIDADE"));
                 temp.setIdFuncionario(rs.getInt("ID_FUNCIONARIO"));
@@ -80,11 +109,10 @@ public class agendamentoDao {
                 temp.setFilaEspera(rs.getBoolean("FILA_ESPERA"));
                 temp.setPromocao(rs.getBoolean("PROMOCAO"));
                 temp.setDataAgendamento(rs.getString("DATA_AGEN"));
-               
+
                 // exibe os cadastros no banco
-               
-                System.out.println(rs.getInt("ID_CLIENTE") +" | "+rs.getInt("ID_UNIDADE") + " | " + rs.getInt("ID_FUNCIONARIO") + " | " +rs.getInt("ID_SERVICO") + " | " + rs.getInt("ID_STATUS") + " | " +rs.getInt("ID_AGENDAMENTO") + "|" +rs.getString("HORARIO_INICIAL") +"|"+rs.getString("HORARIO_FINAL") + "|" +rs.getBoolean("FILA_ESPERA") +"|"+ rs.getBoolean("PROMOCAO") +"|"+rs.getString("DATA_AGEN"));
-           
+                System.out.println(rs.getInt("ID_CLIENTE") + " | " + rs.getInt("ID_UNIDADE") + " | " + rs.getInt("ID_FUNCIONARIO") + " | " + rs.getInt("ID_SERVICO") + " | " + rs.getInt("ID_STATUS") + " | " + rs.getInt("ID_AGENDAMENTO") + "|" + rs.getString("HORARIO_INICIAL") + "|" + rs.getString("HORARIO_FINAL") + "|" + rs.getBoolean("FILA_ESPERA") + "|" + rs.getBoolean("PROMOCAO") + "|" + rs.getString("DATA_AGEN"));
+
             }
         } catch (SQLException e) {
             Conexao.imprimeErro("Erro ao buscar cliente", e.getMessage());
@@ -92,5 +120,19 @@ public class agendamentoDao {
 
     }
 
+    public void atualizar(agendamento agend, int dados, int IdAgen) throws SQLException {
+        Statement comando1 = this.comando.createStatement();
+
+        try {
+
+            String query = "UPDATE AGENDAMENTO SET ID_STATUS = '" + agend.getIdStatus()+ "', ID_STATUS = '" + dados + "' where ID_AGENDAMENTO = '" + IdAgen + "';";
+
+            System.out.println(" status atualizado!");
+            comando1.executeUpdate(query); //com é a mesma variavel que esta guardando a String
+        } //com é a mesma variavel que esta guardando a String
+        catch (SQLException e) {
+            Conexao.imprimeErro("Erro ao atualizar agendamento", e.getMessage());
+        }
+    }
 
 }

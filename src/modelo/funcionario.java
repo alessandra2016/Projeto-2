@@ -16,6 +16,48 @@ public class funcionario {
     private String cpf;
     private String rg;
     private String cargo;
+    
+    private String nomeNovo, cpfNovo, rgNovo, telefoneNovo, celularNovo;
+
+    public String getNomeNovo() {
+        return nomeNovo;
+    }
+
+    public String getCpfNovo() {
+        return cpfNovo;
+    }
+
+    public String getRgNovo() {
+        return rgNovo;
+    }
+
+    public String getTelefoneNovo() {
+        return telefoneNovo;
+    }
+
+    public String getCelularNovo() {
+        return celularNovo;
+    }
+
+    public void setNomeNovo(String nomeNovo) {
+        this.nomeNovo = nomeNovo;
+    }
+
+    public void setCpfNovo(String cpfNovo) {
+        this.cpfNovo = cpfNovo;
+    }
+
+    public void setRgNovo(String rgNovo) {
+        this.rgNovo = rgNovo;
+    }
+
+    public void setTelefoneNovo(String telefoneNovo) {
+        this.telefoneNovo = telefoneNovo;
+    }
+
+    public void setCelularNovo(String celularNovo) {
+        this.celularNovo = celularNovo;
+    }
 
     public int getIdFuncionario() {
         return idFuncionario;

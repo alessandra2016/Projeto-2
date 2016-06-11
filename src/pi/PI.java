@@ -5,7 +5,6 @@
  */
 package pi;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -22,6 +21,7 @@ import modelo.status;
 import modelo.unidade;
 import pi.dao.agendamentoDao;
 import pi.dao.funcionarioDao;
+import pi.dao.relatorioDao;
 import pi.dao.servicoDao;
 import pi.dao.statusDao;
 import pi.dao.unidadeDao;
@@ -114,7 +114,7 @@ public class PI {
         funcionarioDao fun = new funcionarioDao(conn);
         servicoDao ser = new servicoDao(conn);
         statusDao status = new statusDao(conn);
-
+        relatorioDao relat = new relatorioDao(conn);
         // importa as classes
         cliente clie = new cliente();
         agendamento agendar = new agendamento();
@@ -122,7 +122,7 @@ public class PI {
         funcionario func = new funcionario();
         servico serv = new servico();
         status sta = new status();
-
+        relatorioDao rel = new relatorioDao(conn);
         int op; //menu principal
         do {
             op = menu();
@@ -146,27 +146,21 @@ public class PI {
                             System.out.println("  ");
                             fun.pesquisarPorID(unidade); //irá chamar a profissional da unidade digitada anteriormente
                             int funcionario = leitor.nextInt();
-                            agendar.getIdFuncionario(); //guarda na classe o valor (ID do funcionario)
+                            agendar.setIdFuncionario(funcionario); //guarda na classe o valor (ID do funcionario)
 
                             //recebendo o nome do cliente
                             //informa o cliente
-                            System.out.println(" Informe o cliente");
+                            System.out.println(" Informe código do cliente");
                             System.out.println("  ");
-                            System.out.println(" 1 - Por nome - caso não possua cadastro "); //por nome caso o cliente não esteja cadastrado
-                            System.out.println(" 2 - Por código "); //codigo do cadastro
+                            System.out.println(" Código | Nome | CPF | RG | Telefone | Celular |");
+                            System.out.println(" ");
+                            cli.buscar(clie);
+                            System.out.println(" ");
 
-                            int escolha = leitor.nextInt();
+                            int idCliente = leitor.nextInt();
 
-                            if (escolha == 1) { //se a opcao for 1, nome será guardado na variavel de nome da classe agendamento
-                                System.out.println(" Digite o nome: ");
-                                String nomeCliente = leitor.next();
-                                agendar.setNomeCliente(nomeCliente);
+                            agendar.setIdCliente(idCliente);
 
-                            } else if (escolha == 2) {
-                                System.out.println(" Digite o código: ");
-                                int idCliente = leitor.nextInt();
-                                agendar.setIdCliente(idCliente);
-                            }
                             System.out.println("  ");
                             System.out.println(" Digite o código do serviço que deseja ");
                             System.out.println("  ");
@@ -176,7 +170,7 @@ public class PI {
                             System.out.println("  ");
 
                             //insere a data
-                            System.out.println(" Informe a data ");
+                            System.out.println(" Informe a data : ( Formato - aaaa/mm/dd )");
                             System.out.println("  ");
                             String data = leitor.next();
                             agendar.setDataAgendamento(data);//insere a data na classe agendamento
@@ -254,6 +248,24 @@ public class PI {
 
                             break;
                         case 2:
+
+                            System.out.println(" Informe qual o código do agendamento que deseja editar ");// condição, precisa ver no banco qual chave primaria
+                            System.out.println(" ");
+                            System.out.println(" Código do cliente | Código da unidade | Código do serviço | Código do status | Código do agendamento | Hora Inicial | Hora Final | Fila de Espera | Promoção | Data do agendamento");
+                            System.out.println(" ");
+                            agend.buscar(agendar);
+                            System.out.println(" ");
+
+                            int idAgend = leitor.nextInt();
+                            agendar.setCod(idAgend);
+                            agendamento agendamentoEncontrado = agend.buscarEspecifica(idAgend);
+
+                            System.out.println(" Escolha o código Status ");
+                            status.buscar(sta);
+                            int novoStatus = leitor.nextInt();//guardando em uma variavel
+                            agendar.setIdStatus(novoStatus);
+                            agend.atualizar(agendamentoEncontrado, novoStatus, idAgend);
+
                             break;
 
                         case 3:
@@ -266,18 +278,81 @@ public class PI {
 
                             break;
                     }
+
                     break;
                 case 2:
                     int opRelatorio = relatorios();
 
+                                 
+
                     switch (opRelatorio) {
+
                         case 1:
+                            //Relatorio que mostra quais foram os agendamentos realizados nas unidades
+                            System.out.println("****Atendimentos realizados pelas unidades****");
+                           rel.getRelatorio_Agendamento_realizado_unid();
+                            
+                            break;
+                        
                         case 2:
+                            //Relatorio que mostra quais foram os agendamentos realizados pelos profissionais
+                            System.out.println("****Atendimentos realizados pelos profissionais****");
+                            rel.getRelatorio_Agendamento_realizado_func();
+                            break;
                         case 3:
+                            //Relatorio que mostra os agendamentos realizados, e seus clientes
+                            System.out.println("****Digite o código do cliente****");
+                            int id_cliente1= leitor.nextInt();
+                            rel.setRelatorio_atendimento_cliente(id_cliente1);
+                            break;
                         case 4:
+                            //Neste é possivel verificar em qual unidade esta um funcionario. Em qual ele trabalha
+                            System.out.println("****Digite o código de seu funcionario****");
+                            int id_funcionario1=leitor.nextInt();
+                            rel.setRelatorio_funcio_suaUnid(id_funcionario1);
+                            break;
                         case 5:
-                    }
+                            //Neste é possivel pesquisar a agenda de um funcionario, ou seja, os agendamentos que ele possui
+                            System.out.println("****Digite o código de seu funcionario****");
+                            int id_funcionario2=leitor.nextInt();
+                            
+                            rel.setRelatorio_funcio_suaAgenda(id_funcionario2);
+                            
+                            break;
+                        case 6:
+                            //Apresenta a agenda para o dia atual,de uma unidade
+                            System.out.println("*****Agendamentos de hoje*****");
+                            System.out.println("Escolha sua unidade: ");
+                            int unidade_hj=leitor.nextInt();
+                            rel.setRelatorio_Agendamento_dia(unidade_hj);
+                            break;
+                            
+                        case 7:
+                            System.out.println("*****Em espera*****");
+                            rel.getRelatorio_Agendamento_emEspera();
+                            break;
+                        case 8:
+                            System.out.println("*****Cancelados*****");
+                            rel.getRelatorio_Agendamento_cancelados();
+                            break;
+                        case 9:
+                            System.out.println("**Quantidade de Participantes da promoção- por unidade**");
+                            System.out.println("Digite o nome da unidade que você deseja verificar: ");   
+                            String nome_unid=leitor.nextLine();
+                            rel.setRelatorio_Agendamento_promocao(nome_unid);
+                            break;
+                        case 10:
+                            System.out.println("***Ranking das unidades***");
+                            rel.getRanking_Unidade();
+                            break;
+                        case 11:
+                            System.out.println("***Ranking dos funcionarios***");
+                            rel.getRanking_funcionario();
+                            break;
+                        }  
                     break;
+
+                    
 
                 case 3:
 
@@ -288,13 +363,78 @@ public class PI {
                             int opcaoCliente = submenu(); // editar, excluir ou visualizar - cliente
                             switch (opcaoCliente) {
                                 case 1:
-                                    System.out.println(" Informe qual cliente deseja editar ");// condição, precisa ver no banco qual chave primaria
+                                    System.out.println(" Informe o codigo do cliente deseja editar ");// condição, precisa ver no banco qual chave primaria
+                                    System.out.println(" ");
+                                    System.out.println(" Código | Nome | CPF | RG | Telefone | Celular |");
+                                    System.out.println(" ");
+                                    cli.buscar(clie);
+                                    System.out.println(" ");
 
-                                    cli.atualizar(clie);
+                                    int codCliente = leitor.nextInt();
+
+                                    cliente clienteEncontrado = cli.buscarEspecifica(codCliente);
+
+                                    System.out.println(" Qual campo você deseja editar ? ");
+
+                                    System.out.println(" 1 - Nome ");
+                                    System.out.println(" 2 - CPF ");
+                                    System.out.println(" 3 - RG ");
+                                    System.out.println(" 4 - Telefone ");
+                                    System.out.println(" 5 - Celular ");
+                                    int opEscolha = leitor.nextInt();
+
+                                    switch (opEscolha) {
+                                        case 1:
+                                            System.out.println(" Digite novo nome ");
+                                            String novoNome = leitor.next();//guardando em uma variavel
+                                            clie.setNomeNovo(novoNome); // pasando para a classe cliente
+                                            cli.atualizar(clienteEncontrado, novoNome, opEscolha);// chamando a classe Cliente DAO para atualizar o dado
+
+                                            break;
+                                        case 2:
+                                            System.out.println(" Digite novo CPF ");
+                                            String novoCpf = leitor.next();
+                                            clie.setCpfNovo(novoCpf);
+                                            cli.atualizar(clienteEncontrado, novoCpf, opEscolha);
+                                            break;
+                                        case 3:
+                                            System.out.println(" Digite novo RG ");
+                                            String novoRg = leitor.next();
+                                            clie.setRgNovo(novoRg);
+                                            cli.atualizar(clienteEncontrado, novoRg, opEscolha);
+                                            break;
+                                        case 4:
+                                            System.out.println(" Digite novo telefone ");
+                                            String novoTel = leitor.next();
+                                            clie.setTelefoneNovo(novoTel);
+                                            cli.atualizar(clienteEncontrado, novoTel, opEscolha);
+                                            break;
+                                        case 5:
+                                            System.out.println(" Digite novo Celular ");
+                                            String novoCel = leitor.next();
+                                            clie.setCelularNovo(novoCel);
+                                            cli.atualizar(clienteEncontrado, novoCel, opEscolha);
+                                            break;
+                                        default:
+                                            System.out.println(" Código invalido!! ");
+
+                                    }
+
+                                    /*if (codCliente == clie.getIdcliente()) {
+                                       // cli.atualizar(clie);
+                                    } else {
+                                        System.out.println(" Codigo invalido ");
+                                    }*/
                                     break;
                                 case 2:
                                     System.out.println(" Informe qual codigo do cliente deseja excluir ");
-                                    //comparar se possui nome para excluir ******
+
+                                    System.out.println(" ");
+                                    System.out.println(" Código | Nome | CPF | RG | Telefone | Celular |");
+                                    System.out.println(" ");
+                                    cli.buscar(clie);
+                                    System.out.println(" ");
+
                                     int idApagar = leitor.nextInt();
                                     cli.apagar(idApagar);
                                     System.out.println(" Cadastro apagado com sucesso !! ");
@@ -317,10 +457,64 @@ public class PI {
                             switch (opcaoFuncionario) {
                                 case 1:
                                     System.out.println(" Informe qual o código do funcionário que deseja editar ");// condição, precisa ver no banco qual chave primaria
+                                    System.out.println(" ");
+                                    System.out.println(" Id Funcionario | id unidade | Nome do Funcionario | CPF | RG | Cargo |");
+                                    System.out.println(" ");
+                                    fun.buscar(func);
+                                    System.out.println(" ");
 
+                                    int idFun = leitor.nextInt();
+                                    func.setIdFuncionario(idFun);
+                                    funcionario funcionarioEncontrado = fun.buscarEspecifica(idFun);
+
+                                    System.out.println(" Qual campo você deseja editar ? ");
+
+                                    System.out.println(" 1 - Nome ");
+                                    System.out.println(" 2 - CPF ");
+                                    System.out.println(" 3 - RG ");
+                                    System.out.println(" 4 - Cargo ");
+
+                                    int oEscolha = leitor.nextInt();
+
+                                    switch (oEscolha) {
+                                        case 1:
+                                            System.out.println(" Digite novo nome ");
+                                            String novoNome = leitor.next();//guardando em uma variavel
+                                            func.setNomeNovo(novoNome); // pasando para a classe funciomario
+                                            fun.atualizar(funcionarioEncontrado, novoNome, oEscolha, idFun);// chamando a classe funcionario DAO para atualizar o dado
+
+                                            break;
+                                        case 2:
+                                            System.out.println(" Digite novo CPF ");
+                                            String novoCpf = leitor.next();
+                                            func.setCpfNovo(novoCpf);
+                                            fun.atualizar(funcionarioEncontrado, novoCpf, oEscolha, idFun);
+                                            break;
+                                        case 3:
+                                            System.out.println(" Digite novo RG ");
+                                            String novoRg = leitor.next();
+                                            func.setRgNovo(novoRg);
+                                            fun.atualizar(funcionarioEncontrado, novoRg, oEscolha, idFun);
+                                            break;
+                                        case 4:
+                                            System.out.println(" Digite novo cargo ");
+                                            String novoTel = leitor.next();
+                                            func.setTelefoneNovo(novoTel);
+                                            fun.atualizar(funcionarioEncontrado, novoTel, oEscolha, idFun);
+                                            break;
+
+                                        default:
+                                            System.out.println(" Código invalido!! ");
+                                    }
                                     break;
                                 case 2:
                                     System.out.println(" Informe qual o código do funcionário que deseja excluir ");// condição, precisa ver no banco qual chave primaria
+                                    System.out.println(" ");
+                                    System.out.println(" Código do Funcionário | Código da Unidade | Nome do Funcionario | CPF | RG | Cargo |");
+                                    System.out.println(" ");
+                                    fun.buscar(func);
+                                    System.out.println(" ");
+
                                     int idApagar = leitor.nextInt();
                                     fun.apagar(idApagar); //passa o id para a funcao apagar da classe funcionario que faz conexão com DB
                                     System.out.println(" Cadastro apagado com sucesso !! ");
@@ -341,25 +535,8 @@ public class PI {
                             " Opção invalida !!! ");
             }
 
-            /*System.out.println(" Nome: ");
-        String nome = leitor.nextLine();
-        System.out.println(" CPF: ");
-        String cpf = leitor.nextLine();
-        System.out.println(" RG: ");
-        String rg = leitor.nextLine();
-        System.out.println(" Telefone: ");
-        String tel = leitor.nextLine();
-        System.out.println(" Celular: ");
-        String cel = leitor.nextLine();
-
-        clie.setNome(nome);
-        clie.setRg(rg);
-        clie.setCpf(cpf);
-        clie.setCelular(cel);
-        clie.setTelefone(tel);
-
-        cli.insere(clie);*/
         } while (op != 0);
 
     }
+
 }
